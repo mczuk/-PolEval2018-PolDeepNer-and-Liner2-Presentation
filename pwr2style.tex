@@ -1,0 +1,104 @@
+\mode<presentation>
+{
+	%define logos
+	\pgfdeclareimage[width=56.34pt,height=12pt,interpolate=true]{pwrlogo}{pwrlogo}
+	\pgfdeclareimage[height=46.48pt,interpolate=true]{pwrlogoduze}{pwrlogoduze}
+%	\pgfdeclareimage[width=32pt,height=46.48pt,interpolate=true]{gfxtop}{top}
+	%define pwr colors
+	\definecolor{pwrdark}{RGB}{156,48,28}
+	\definecolor{pwrlight}{RGB}{242,198,140}
+	\definecolor{pwrtextonlight}{RGB}{138,47,29}
+	\definecolor{niebieski}{RGB}{0,0,254}
+	\definecolor{zloty}{RGB}{168,153,110}
+
+	\definecolor{ntnublue}{RGB}{156,48,28}
+	%define theme
+  \usetheme{boxes}
+  \useoutertheme[footline=institutetitle]{miniframes}  
+  \useinnertheme[shadow]{rounded}
+  \setbeamercovered{transparent}
+  %hide navigation symbols
+  \setbeamertemplate{navigation symbols}{}	
+  %change colors
+  \usecolortheme[named=pwrdark]{structure}
+  \setbeamercolor{separation line}{bg=pwrdark}
+  \setbeamercolor*{titlelike}{parent=palette primary}  
+	\setbeamercolor*{palette primary}{use=structure,fg=white,bg=structure.fg}  
+  
+	%set block colors
+\setbeamercolor{block title}{fg=white,bg=ntnublue}
+\setbeamercolor{block title alerted}{use=alerted text,fg=white,bg=alerted text.fg!75!black}
+\setbeamercolor{block title example}{use=example text,fg=white,bg=zloty}
+
+\setbeamercolor{block body}{parent=normal text,use=block title,bg=block title.bg!15!bg}
+\setbeamercolor{block body alerted}{parent=normal text,use=block title alerted,bg=block title alerted.bg!15!bg}
+\setbeamercolor{block body example}{parent=normal text,use=block title example,bg=block title example.bg!15!bg}
+	
+	%define headline with pwr logo
+	\defbeamertemplate*{headline}{infolines theme modified by boban}
+	{
+  \leavevmode%  
+  \hbox{%
+  \begin{beamercolorbox}[wd=.1\paperwidth,ht=5.25ex,dp=1ex,left]{section in head/foot}%
+    \usebeamerfont{section in head/foot}\hspace*{2ex} \pgfuseimage{pwrlogo} \hspace*{2ex}
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,right]{section in head/foot}%
+    \usebeamerfont{section in head/foot}\insertsectionhead
+  \end{beamercolorbox}%
+  \ifx\insertsubsection\empty
+     % it is empty
+  \else
+    \hspace*{2ex}>>
+  \fi
+  \begin{beamercolorbox}[wd=.4\paperwidth,ht=2.25ex,dp=1ex,left]{subsection in head/foot}%
+    \usebeamerfont{subsection in head/foot}\hspace*{2ex}\insertsubsectionhead
+  \end{beamercolorbox}}%
+  \vskip0pt%
+	  \vskip0pt%
+	  \begin{beamercolorbox}[colsep=0.5pt]{lower separation line foot}
+	  \end{beamercolorbox}
+	}
+
+	%define frametitle
+	\setbeamercolor{frametitle}{bg=pwrlight}
+	\setbeamercolor{frametitle}{fg=pwrdark}
+	\setbeamertemplate{frametitle}
+	{\vskip-3pt
+	  \leavevmode
+	  %\hbox{%
+	  \begin{beamercolorbox}[wd=\paperwidth,ht=2.4ex,dp=1ex]{frametitle}%
+	    \raggedright\hspace*{2em}\textbf\insertframetitle
+	  \end{beamercolorbox}%
+	 % }%
+	  \vskip-11pt%
+	  \begin{beamercolorbox}[wd=\paperwidth,colsep=0.5pt]{lower separation line foot}
+	  \end{beamercolorbox}%
+	  \vskip0pt
+	}
+
+	%define footer with page numebers
+	\setbeamercolor{foot}{bg=pwrlight}
+	\defbeamertemplate*{footline}{infolines theme modified by boban}
+	{
+	  \leavevmode%
+	  \begin{beamercolorbox}[colsep=0.5pt]{upper separation line foot}
+	  \end{beamercolorbox}
+	  \hbox{%
+	  \begin{beamercolorbox}[wd=.33333\paperwidth,ht=2.25ex,dp=1ex,left]{author in head/foot}%
+	    \usebeamerfont{author in head/foot}\insertshortauthor~~\insertshortinstitute
+	  \end{beamercolorbox}%
+	  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+	    \usebeamerfont{date in head/foot}\insertshortdate{} 
+	  \end{beamercolorbox}%
+	  \begin{beamercolorbox}[wd=.33333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+	    \hspace*{2em}
+	    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex} 
+	  \end{beamercolorbox}}%
+	  \vskip0pt%
+	  \begin{beamercolorbox}[colsep=0.5pt]{lower separation line foot}
+	  \end{beamercolorbox}
+	}
+	
+}
+
+\titlegraphic{\pgfuseimage{pwrlogoduze}}
