@@ -6,7 +6,7 @@
 %\usepackage{color}
 \usepackage[table,dvipsnames]{xcolor}
 %\usepackage{booktabs}
-%\usepackage[polish]{babel}
+\usepackage[polish]{babel}
 %\usepackage{polski}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -88,8 +88,8 @@
             \end{itemize}
         \item Systems
             \begin{itemize}
-                \item PolDeepNer --- deep learning / neural networks,
                 \item Liner2 --- conditional random fields (CRF),
+                \item PolDeepNer --- deep learning / neural networks,
             \end{itemize}
         \item Evaluation
             \begin{itemize}
@@ -221,6 +221,117 @@ geogName inside placeName-country     placeName-country
 \begin{frame}
     \begin{center}
         \Huge
+        Liner2
+        
+        \normalsize
+        \url{https://github.com/CLARIN-PL/Liner2}
+    \end{center}
+\end{frame}
+
+%================================================================
+\subsection{Liner2}
+%================================================================
+
+\begin{frame}
+    \frametitle{Liner2}
+    \begin{itemize}
+        \item is being developed since 2011,
+        \item implements a set of modules for sequence labelling tasks (statistical, rule- and dictionary-based),
+        \item the statistical model is based on conditional random fields method --- CRF++, Mallet,
+        \item already applied in various information extraction tasks --- recognition of named entities, temporal expressions, event mentions and spatial expressions, 
+        \item CRF utilizes a rich set of features --- orthographic, structural, morphological, lexicon-base, wordnet-based and rule-based,
+        \item \url{https://github.com/CLARIN-PL/Liner2}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{NER model}
+    Modules:
+    \begin{itemize}
+        \item CRF-based statistical model,
+            \begin{itemize}
+                \item feature window size --- up to 2 tokens (depends on the feature),
+                \item unigram ($L*N$) and bigram ($L*L*N$) templates,
+                \item min number of feature occurrences --- 5,
+                \item regularization algorithm --- L2.
+            \end{itemize}
+        \item NE propagation,
+        \item Polem lemmatizer\footnote{\url{https://github.com/CLARIN-PL/Polem}}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{NER features (1/4)}
+    \begin{itemize}
+        \item \textbf{orthographic} (17) --- orth, $n$-prefix, $n$-suffix, pattern, binary orthographic features (start with an upper case, contains an upper case, etc.),
+        \item \textbf{structural} (3) --- nospace, qutation, parethesis,
+        \item \textbf{morphological} (6) --- base, ctag, part of speech, case, gender, number, agreement,
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{NER features (2/4)}
+        \begin{itemize}
+        \item \textbf{lexicon-based} (26):
+        \begin{itemize}
+            \item NELexicon2\footnote{\url{https://clarin-pl.eu/dspace/handle/11321/247}} --- a dictionary of more than 2.3 million proper names (base and inflected forms) with fine-grained categorization (107 categories),
+            \item Polish Named Entity Triggers\footnote{\url{http://zil.ipipan.waw.pl/PNET}} (PNET) --- an electronic lexicon containing partly inflected external or internal evidences, or trigger words, for Polish named entities,
+        \end{itemize}
+        \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{NER features (3/4)}
+        \begin{itemize}
+        \item \textbf{wordnet-based} (7) --- synonym, hypernym $n$, $n$-th top hypernym (based on plWordNet \cite{MazPiaRudSzpaKedz:16}),
+        \item \textbf{complex features} (51) --- features constructed on the basis of atomic features. They are used to model relationships between combinations of input features and output labels \cite{Marcinczuk2015}. The features were induced using RIPPER algorithm,
+    \end{itemize}
+\end{frame}
+    
+\begin{frame}[fragile]
+    \frametitle{NER features (4/4)}
+    \tiny
+    \begin{verbatim}
+mieszkańcy      mieszkaniec     subst:pl:voc:m1 subst   voc     pl      m1      ALL_LOWER       
+                1       0       1       0       0       1       0       0       0       
+                1       0       0       0       0       0       xxxxxxxxxx      10      
+                O       O       O       O       O       O       O       O       O       
+                O       O       O       O       O       O       O       O       O       
+                O       O       O       O       O       O       O       O       NULL    
+                O       O       1                                               O
+Warszawy        Warszawa        subst:pl:voc:f  subst   voc     pl      f       UPPER_INIT      
+                1       0       1       0       1       1       0       0       1       
+                0       0       0       0       0       0       Xxxxxxxx        8       
+                O       O       O       B       B       O       O       O       O       
+                O       O       O       O       O       O       O       O       O       
+                O       O       O       O       O       O       O       O       0       
+                O       O       1                                               B-placeName-settlement
+i               i       interj: NULL    NULL    NULL    NULL    ALL_LOWER       
+                1       0       1       0       0       1       0       0       0       
+                1       0       0       0       0       0       x       1       
+                O       O       O       O       O       O       O       O       O       
+                O       O       O       O       O       O       O       O       O       
+                O       O       O       O       O       O       O       O       NULL    
+                O       O       1                                               O
+Krakowa         Kraków  subst:sg:gen:m3 subst   gen     sg      m3      UPPER_INIT      
+                1       0       1       0       1       1       0       0       1       
+                0       0       0       0       0       0       Xxxxxxx 7       
+                O       O       O       O       O       O       O       O       O       
+                O       O       O       O       O       O       O       O       O       
+                O       O       O       O       O       O       O       O       NULL    
+                O       O       1                                               B-placeName-settlement
+    \end{verbatim}
+\end{frame}
+
+
+
+%================================================================
+\subsection{}
+%================================================================
+
+\begin{frame}
+    \begin{center}
+        \Huge
         PolDeepNer
         
         \normalsize
@@ -296,9 +407,9 @@ geogName inside placeName-country     placeName-country
     \begin{tabular}{l|l|l|l|l}
         \textbf{Name} & \textbf{Corpus} & \textbf{Dim.} & \textbf{Method} & \textbf{Min count} \\
         \hline
-        cc.pl.300.bin               & Common Crawl PL & 300 & CBOW     & ? \\
-        kgr10-plain-sg-300-mC50.bin & KGR10           & 300 & skipgram & 50\\
-        kgr10\_orths.vec.bin        & KGR10           & 100 & skipgram & 5\\
+        cc.pl.300.bin\footnote{\tiny\url{https://github.com/facebookresearch/fastText}}  & Common Crawl & 300 & CBOW     & ? \\
+        kgr10-plain-sg-300-mC50.bin\footnote{\tiny\url{https://nextcloud.clarin-pl.eu/index.php/s/HIFaRv7ekgw24F1/download}} & KGR10           & 300 & skipgram & 50\\
+        kgr10\_orths.vec.bin\footnote{\tiny\url{https://clarin-pl.eu/dspace/handle/11321/600}}        & KGR10           & 100 & skipgram & 5\\
     \end{tabular}
     \vspace{1em}\\
     Common features:
@@ -308,72 +419,12 @@ geogName inside placeName-country     placeName-country
     \end{itemize}
     Corpora:
     \begin{itemize}
-        \item Common Crawl PL --- Polish text from Common Crawl,
+        \item Common Crawl --- Polish texts from Common Crawl\footnote{\tiny\url{http://commoncrawl.org}},
         \item KGR10 --- a corpus of Polish texts containing 4 billion words.
     \end{itemize}
 \end{frame}
 
 %----------------------------------------------------------------
-
-%================================================================
-\subsection{}
-%================================================================
-
-\begin{frame}
-    \begin{center}
-        \Huge
-        Liner2
-        
-        \normalsize
-        \url{https://github.com/CLARIN-PL/Liner2}
-    \end{center}
-\end{frame}
-
-%================================================================
-\subsection{Liner2}
-%================================================================
-
-\begin{frame}
-    \frametitle{Liner2}
-    \begin{itemize}
-        \item is being developed since 2011,
-        \item implements a set of modules for sequence labelling tasks (statistical, rule- and dictionary-based),
-        \item the statistical model is based on conditional random fields method --- CRF++, Mallet,
-        \item already applied in various information extraction tasks --- recognition of named entities, temporal expressions, event mentions and spatial expressions, 
-        \item CRF utilizes a rich set of features --- orthographic, morphological, lexicon-base, wordnet-based and rule-based,
-        \item \url{https://github.com/CLARIN-PL/Liner2}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}
-    \frametitle{NER resources (1/2)}
-    \begin{itemize}
-        \item lexicons:
-        \begin{itemize}
-            \item NELexicon2\footnote{\url{https://clarin-pl.eu/dspace/handle/11321/247}} --- a dictionary of more than 2.3 million proper names (base and inflected forms) with fine-grained categorization (107 categories),
-            \item PNET (Polish Named Entity Triggers\footnote{\url{http://zil.ipipan.waw.pl/PNET}}) --- an electronic lexicon containing partly inflected external or internal evidences, or trigger words, for Polish named entities,
-            \item plWordNet \cite{MazPiaRudSzpaKedz:16} --- Polish wordnet is used to exploit synonyms and hypernyms,
-        \end{itemize}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}
-    \frametitle{NER resources (2/2)}
-    \begin{itemize}
-        \item complex features --- features constructed on the basis of atomic features. They are used to model relationships between combinations of input features and output labels \cite{Marcinczuk2015}. The features were induced using RIPPER algorithm,
-        \item morphological features --- are motivated by the NER grammars which utilize morphological information \cite{Piskorski2004a}.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}
-    \frametitle{CRF parameters}
-    \begin{itemize}
-        \item feature window size --- in most cases 2 (two preceding, current and two following) but for same feature only the current is used,
-        \item unigram ($L*N$) and bigram ($L*L*N$) templates,
-        \item min number of feature occurrences --- 5,
-        \item regularization algorithm --- L2.
-    \end{itemize}
-\end{frame}
     
 
 %################################################################
